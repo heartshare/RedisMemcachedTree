@@ -1,5 +1,6 @@
 package com.bonaparte.service;
 
+import com.schooner.MemCached.MemcachedItem;
 import com.whalin.MemCached.MemCachedClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,9 @@ public class MemcachedService {
 
         b = memCachedClient.get("b");
         System.out.println(b);
+
+        MemcachedItem memcachedItem = memCachedClient.gets("b");
+        long casNo = memcachedItem.getCasUnique();
+        System.out.println(casNo);
     }
 }
