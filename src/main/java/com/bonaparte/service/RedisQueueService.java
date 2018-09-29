@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 /**
  * Created by yangmingquan on 2018/9/28.
+ * redis 队列
  */
 @Service
 public class RedisQueueService {
