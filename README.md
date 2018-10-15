@@ -22,3 +22,7 @@ Redis
 <pre>
 1) memcached数据结构
 </pre>
+
+<pre>
+Couchbase技术
+</pre>
