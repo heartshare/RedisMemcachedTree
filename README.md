@@ -23,6 +23,15 @@ Redis
 1) memcached数据结构
 </pre>
 
+<pre>
+Evcache
+	Evcache是一个非常优秀的缓存服务，能够提供低延迟，高可靠性的解决方案，基于memcached的内存存储，
+	Evcache典型的适合对强一致性没有必须要求的场合
+	   1）大流量
+	   2）健壮的key-value编程接口，每秒处理3千万请求，存储数十亿个对象，跨数千台memcached服务器
+</pre>
+
+
 ![](https://i.imgur.com/edDlpNP.png)
 
 ![](https://i.imgur.com/ZDy8aaC.png)
@@ -68,7 +77,6 @@ redis内存管理
 
 <pre>
 内存管理
-
   couchbase,redis都是基于内存的数据库系统
   <pre>
   counchbase内存管理机制
