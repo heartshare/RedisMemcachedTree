@@ -27,6 +27,7 @@ Redis
 
 ![](https://i.imgur.com/ZDy8aaC.png)
 
+
 <pre>
 couchbase
     1) CouchDB和MemBase的合并，MemBase是基于Memcached的，因此couchbase结合了couchbase的简单可靠和memcached的高性能，以及membase的可扩展性
@@ -57,6 +58,27 @@ couchbase
        couchbase对每个线程访问的资源进行静态的分配，同时使用资源锁，当创建多个读写线程时，服务器为每个线程单独分配了不同的vbuckets,保证同一个vbuckets只有一个读线程，一个写线程访问
 </pre>
 
+couchbase内存管理
+
+![](https://i.imgur.com/ElBnxGu.png)
+
+redis内存管理
+
+![](https://i.imgur.com/8VLZ9bF.png)
+
 <pre>
 内存管理
+
+  couchbase,redis都是基于内存的数据库系统
+  <pre>
+  counchbase内存管理机制
+	  默认使用Slab Allocation机制管理内存，其主要思想是按照预先规定的大小，将分配的内存分割成特定长度的块以存储相应长度的key-value数据记录，以完全解决内存碎片问题,所有的key-value数据都存储在slab allocation系统里，而couchbase的其它内存请求则通过普通的malloc/free来申请，
+	  具体机制：
+	     首先从操作系统申请一大块内存，并将其分割成各种尺寸的chunk，并把尺寸相同的块分成组slab class， 其中chunk就是用来存储数据的最小单位，可以设置chunk的增长因子
+      缺点：空间浪费
+  </pre>
+
+  <pre>
+  redis内存管理机制
+  </pre>
 </pre>
