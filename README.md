@@ -23,6 +23,36 @@ Redis
 1) memcached数据结构
 </pre>
 
+![](https://i.imgur.com/edDlpNP.png)
+
+![](https://i.imgur.com/ZDy8aaC.png)
+
 <pre>
-Couchbase技术
+couchbase
+    1) CouchDB和MemBase的合并，MemBase是基于Memcached的，因此couchbase结合了couchbase的简单可靠和memcached的高性能，以及membase的可扩展性
+        1）灵活的数据模型，使用json格式存储对象
+        2）不需要定义数据结构，数据可以存储为key-value对或者json文档，scaleout只需要增加服务器就行
+    2) 数据存储
+	    couchbase通过使用buckets提供数据管理服务，相当于关系数据库中的库，保存数据时，先建bucket，然后直接插入，couchbase有两种类型的buckets
+		1）memcached buckets
+		   只将数据存储在内存，key-value缓存，设计用于关系型数据库的缓存
+		2) couchbase buckets
+		   存数据再内存和硬盘
+	3) 内存配额
+    5) vBucket
+       1) vBucket:相当于一个key的子集，保存的是客户端存储对象的key值，通过vBucket，客户端直接访问保存信息的服务器，不需要通过中间代理或者其他架构，每个key属于一个vBucket,通过key计算出vBucket,在从vBucket与服务器的对照表中找到具体的服务器，从具体服务器获取数据
+       2) vBuckets 用于在集群的节点间分配数据和备份数据
+    6）缓存层
+	   couchbase自动管理缓存，存在一个后台进程，专门负责把一定时间没有被访问的数据移出内存，可配置具体参数，
+	   couchbase在对数据进行增删时会先体现在内存中，而不是立刻体现在硬盘上，等待执行的硬盘操作会以write queue的形式排队执行，通过这种特性使得读写速度非常快
+	   1）低水位
+	      当移除数据过多以至于内存有效数据占用内存低于低水位的时候，couchbase会随机挑选一些文件到内存中以达到低水位，
+	   2）高水位
+	      当有效数据内存占用超过高水位时，couchbase就会移除数据
+	   随着内存数据越来越多，当达到低水位时，系统不会做任何处理，当数据量持续增加，达到高水位时，系统会启动一个job移除数据，当达到低水位时任务停止
+    7）硬盘存储
+       couchbase主要使用缓存为客户端保存和返回信息，同时会逐渐将数据保存到硬盘以维持高可靠性，
+       为了提高读写硬盘的速度和提高缓存的命中率，现在couchbase提供了多线程读写
+       多线程问题解决：
+       couchbase对每个线程访问的资源进行静态的分配，同时使用资源锁，当创建多个读写线程时，服务器为每个线程单独分配了不同的vbuckets,保证同一个vbuckets只有一个读线程，一个写线程访问
 </pre>
