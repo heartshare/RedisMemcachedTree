@@ -202,3 +202,7 @@ redis
        3）使用lua对列表进行分片
 
 </pre>
+
+<pre>
+Redis Rehash
+</pre>
