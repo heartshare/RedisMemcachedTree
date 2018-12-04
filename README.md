@@ -192,3 +192,24 @@ Redis集群方案
       用Redis原生提供的数据复制功能保持数据同步。最后这些Redis高可用集群组通过一
       组Sentinel进行状态监控，而这组Sentinel也是同时拥有一个Master节点和两个Slave节点的高可用集群
 </pre>
+
+<pre>
+Redis的事务（transaction）是一组命令的集合。事务同命令一样都是Redis的最小执行单位，一个事
+务中的命令要么执行，要么不执行。
+
+redis＞MULTI
+OK
+redis＞SADD "user:1:following" 2
+QUEUED
+redis＞SADD "user:2:followers" 1
+QUEUED
+redis＞EXEC
+1) (integer) 1
+2) (integer) 1
+
+
+由于WATCH命令的作用只是当被监控的键值被修改后 阻止 之后一个事务的执行，而不能保证其他客户
+端不修改这一键值，所以我们需要在EXEC执行失败后重新执行整个函数。
+
+执行EXEC命令后会取消对所有键的监控 ，如果不想执行事务中的命令也可以使用 UNWATCH 命令来取消监控
+</pre>
