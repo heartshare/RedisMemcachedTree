@@ -172,6 +172,23 @@ Redis内存使用分析
       存单元，减小内存碎片。
 </pre>
 
+![](https://i.imgur.com/aPIfn2a.png)
+
 <pre>
-Memcached内存分配策略
+Redis集群方案
+      在生产环境下搭建Redis高性能集群，如果其中只使用一个Twemproxy节点，那肯定是不合理
+      的。因为那样做会存在Twemproxy单节点故障问题，所以至少应该使用两个Twemproxy节点。又
+      因为Twemproxy服务的工作相对独立，为了增加访问性能可以使用两个甚至多个Twemproxy节
+      点同时提供服务，其上统一使用LVS服务进行负载分发。根据这样的描述，我们可以构建一种在
+      生产环境下使用的Redis高性能集群方案
+
+      Twemproxy提供了一个配合使用的扩展组件：Redis_Twemproxy_Agent，它的作用是监
+      控Sentinel中Master节点的情况，并且将最新的Master节点情况通知Twemproxy。这样一来
+      当下层某组Redis高可用集群发生Master—Slave状态切换时，Twemproxy就会适时对其下层代
+      理配置情况作出调整。
+
+      另外，上图中给出的第二种生产环境下的Redis集群方案，一共有5组独立运行的Redis高可用
+      集群组，每组Redis高可用集群都有一个Master节点和至少一个Slave节点，它们之间使
+      用Redis原生提供的数据复制功能保持数据同步。最后这些Redis高可用集群组通过一
+      组Sentinel进行状态监控，而这组Sentinel也是同时拥有一个Master节点和两个Slave节点的高可用集群
 </pre>
