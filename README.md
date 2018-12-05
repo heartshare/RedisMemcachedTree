@@ -256,3 +256,25 @@ Redis管道
 <pre>
 使用Redis实现最近搜索存储，以及搜索自动提示功能
 </pre>
+
+![](https://i.imgur.com/TO2HNPl.png)
+
+![](https://i.imgur.com/fUlJWqF.png)
+
+![](https://i.imgur.com/OixNeU5.png)
+
+<pre>
+Redis通常的使用场景：
+      1)排行榜
+      2）Session存储
+      3）验证码存储
+      5）pub/sub 
+         你可以创建一个实时聊天系统，在社交网络上触发好友请求的通知等等
+</pre>
+
+<pre>
+redis中允许模糊查询的有3个通配符，分别是：*，?，[]
+
+模糊查询：
+        StringRedisTemplate.keys("*" + pattern + "*");
+</pre>
