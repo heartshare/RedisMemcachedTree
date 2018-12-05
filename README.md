@@ -278,3 +278,38 @@ redis中允许模糊查询的有3个通配符，分别是：*，?，[]
 模糊查询：
         StringRedisTemplate.keys("*" + pattern + "*");
 </pre>
+
+![](https://i.imgur.com/o5Si68A.png)
+
+<pre>
+     redis采用自己实现的事件分离器，效率比较高，内部采用非阻塞的执行方式，吞吐能力比较大。
+
+     不过，因为一般的内存操作都是简单存取操作，线程占用时间相对较短，主要问题在io上，因
+     此，redis这种模型是合适的，但是如果某一个线程出现问题导致线程占用很长时间，那么
+     reids的单线程模型效率可想而知
+
+     总体来说快速的原因如下： 
+        1）绝大部分请求是纯粹的内存操作（非常快速） 
+        2）采用单线程,避免了不必要的上下文切换和竞争条件 
+        3）非阻塞IO
+
+     内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接
+     都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间
+</pre>
+
+![](https://i.imgur.com/4z3JvkY.png)
+
+<pre>
+      memcached使用多线程模型，一个master线程，多个worker线程，master和worker通过管道实现通信。
+
+      每个worker线程有一个队列，队列元素为CQ_ITEM
+
+      memcached使用libevent实现事件监听，master和worker各有一个event_base。
+
+      起初，master负责监听连接的到来，worker线程负责监听管道的读事件。
+
+      当有一个连接到来，master线程accept该连接，并将conn_fd封装成一个CQ_ITEM对象放入一
+      个worker线程的队列中，同时向管道写入数据触发管道读事件。
+
+      对应worker线程执行管道读事件的回调函数thread_libevent_process
+</pre>
