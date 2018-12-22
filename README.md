@@ -335,3 +335,13 @@ Redis的管道模式
       这样便可以向服务器发送多个命令，而不必等待答复，直到最后一个步骤中读取答复。这被称为管线（PipeLine），并且是几十年来广泛使
       用的技术。
 </pre>
+
+Redis图形化监控工具redis-stat
+
+![](https://i.imgur.com/ApOXjqT.png)
+
+![](https://i.imgur.com/gtvA8NF.png)
+
+<pre>
+Redis图形化监控
+</pre>
