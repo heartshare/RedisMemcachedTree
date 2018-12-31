@@ -427,3 +427,8 @@ redis和memecache的不同在于：
        Redis更多场景是作为Memcached的替代者来使用。
        当需要除key/value之外的更多数据类型支持时，使用Redis更合适。
        当存储的数据不能被剔除时，使用Redis更合适。
+</pre>
+
+###Memcached集群
+
+![](https://i.imgur.com/4a1Wrf5.png)
